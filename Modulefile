@@ -1,0 +1,8 @@
+name    'puppet-piwik'
+version '0.0.1'
+source  'https://github.com/leoc/puppet-piwik'
+author  'Arthur Leonard Andersen'
+license 'GPLv3'
+summary 'Puppet Piwik Module'
+description 'Module to install Piwik using puppet.'
+project_page 'https://github.com/leoc/puppet-piwik/'
