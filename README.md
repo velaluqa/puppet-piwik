@@ -47,6 +47,10 @@ class { 'php::fpm::daemon':
     user => "www-data",
   }
 ```
+
+*Please note:* After the first installation you have to initialize
+ piwik by bootstrapping the database.
+
 ## Contribute
 
 Want to help - send a pull request.
