@@ -46,10 +46,4 @@ class piwik (
     user => $user,
   }
 
-  # file { "piwik-conf":
-  #   path => "$path/conf/config.inc.php",
-  #   content => template("piwik/config.inc.php.erb"),
-  #   owner => $user,
-  #   require => Exec["piwik-upgrade"],
-  # }
 } # Class:: piwik
