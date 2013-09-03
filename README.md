@@ -25,8 +25,7 @@ puppet module install nodes/php
    php I use php-fpm with nginx.
 
 ```
-class { 'php::extension::mysql': } # if you use mysql
-class { 'php::extension::pgsql': } # if you use postgresql
+class { 'php::extension::mysql': }
 class { 'php::extension::mcrypt': }
 class { 'php::extension::gd': }
 class { 'php::fpm::daemon':
