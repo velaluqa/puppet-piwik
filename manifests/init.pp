@@ -2,11 +2,19 @@
 #
 # === Parameters
 #
-# TODO: Add parameters
+# [path] The path were piwik should be installed to (default: /srv/piwik)
+# [user] The user who should be owner of that directory and as which piwik is run (default: www-data)
+# [db_name] The database for piwik (default: piwikdb)
+# [db_user] The database user for piwik (default: piwik)
+# [db_host] The database host for piwik (default: localhost)
+# [db_password] The database password for piwik (default: something weird. Make sure to change that.)
 #
 # === Examples
 #
-# TODO: Add examples
+#  class { 'piwik':
+#    path => "/srv/piwik",
+#    user => "www-data",
+#  }
 #
 # === Authors
 #
