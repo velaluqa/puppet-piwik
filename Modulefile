@@ -1,5 +1,5 @@
-name    'puppet-piwik'
-version '0.0.2'
+name    'leoc-piwik'
+version '0.0.3'
 source  'https://github.com/leoc/puppet-piwik'
 author  'Arthur Leonard Andersen'
 license 'GPLv3'
