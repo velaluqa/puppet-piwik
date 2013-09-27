@@ -40,12 +40,6 @@ class piwik (
     owner => $user,
   }
 
-  mysql::db { $db_name:
-    user => $db_user,
-    password => $db_password,
-    host => $db_host,
-  }
-
   exec { "piwik-download":
     path => "/bin:/usr/bin",
     creates => "$path/.git",
