@@ -23,17 +23,12 @@
 # === Copyright
 #
 # See LICENSE file, Arthur Leonard Andersen (c) 2013
-
+#
 # Class:: piwik
 #
-#
-class piwik (
-  $path = "/srv/piwik",
-  $user = "www-data",
-  $db_name = 'piwikdb',
-  $db_user = 'piwik',
-  $db_host = 'localhost',
-  $db_password = '1/&DF/V2g)(?%§'
+class piwik(
+  $path        = "/srv/piwik",
+  $user        = "www-data",
 ) {
   file { $path:
     ensure => "directory",
