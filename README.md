@@ -1,4 +1,4 @@
-# Puppet-piwik
+# piwik
 
 A puppet module to easily deploy piwik. Make sure you have a
 correct php5 installation. This module only downloads the latest

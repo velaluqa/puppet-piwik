@@ -1,8 +1,0 @@
-name    'velaluqa-piwik'
-version '1.0.0'
-source  'https://github.com/velaluqa/puppet-piwik'
-author  'Arthur Leonard Andersen'
-license 'GPLv3'
-summary 'Puppet Piwik Module'
-description 'Module to install Piwik using puppet.'
-project_page 'https://github.com/velaluqa/puppet-piwik/'
