@@ -3,11 +3,7 @@
 # === Parameters
 #
 # [path] The path were piwik should be installed to (default: /srv/piwik)
-# [user] The user who should be owner of that directory and as which piwik is run (default: www-data)
-# [db_name] The database for piwik (default: piwikdb)
-# [db_user] The database user for piwik (default: piwik)
-# [db_host] The database host for piwik (default: localhost)
-# [db_password] The database password for piwik (default: something weird. Make sure to change that.)
+# [user] The piwik user (default: www-data)
 #
 # === Examples
 #
@@ -26,52 +22,52 @@
 #
 # Class:: piwik
 #
-class piwik(
-  $path        = "/srv/piwik",
-  $user        = "www-data",
+class piwik (
+  $path = '/srv/piwik',
+  $user = 'www-data',
 ) {
   if !defined(Package['unzip']) {
     package { 'unzip': }
   }
 
   file { $path:
-    ensure => "directory",
-    owner => $user,
+    ensure => 'directory',
+    owner  => $user,
   }
 
-  exec { "piwik-download":
-    path => "/bin:/usr/bin",
+  exec { 'piwik-download':
+    path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
     command => "bash -c 'cd /tmp; wget http://builds.piwik.org/latest.zip'",
     require => File[$path],
-    user => $user,
+    user    => $user,
   }
 
-  exec { "piwik-unzip":
-    path => "/bin:/usr/bin",
+  exec { 'piwik-unzip':
+    path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
     command => "bash -c 'unzip -o /tmp/latest.zip \'piwik/*\''",
     require => [ Exec['piwik-download'], Package['unzip'] ],
-    user => $user,
+    user    => $user,
   }
 
-  exec { "piwik-copy":
-    path => "/bin:/usr/bin",
+  exec { 'piwik-copy':
+    path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
     command => "bash -c 'cp -rf /tmp/piwik/* ${path}/'",
     require => Exec['piwik-unzip'],
-    user => $user,
+    user    => $user,
   }
 
-  file { "/tmp/latest.zip":
-    ensure => absent,
+  file { '/tmp/latest.zip':
+    ensure  => absent,
     require => Exec['piwik-copy'],
   }
 
   file { '/tmp/piwik':
-    ensure => absent,
+    ensure  => absent,
     recurse => true,
-    force => true,
+    force   => true,
     require => Exec['piwik-copy'],
   }
 } # Class:: piwik
