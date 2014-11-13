@@ -54,6 +54,7 @@ class piwik (
   exec { 'piwik-unzip':
     path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
+    cwd     => '/tmp',
     command => "bash -c 'unzip -o /tmp/${real_version} \'piwik/*\''",
     require => [ Exec['piwik-download'], Package['unzip'] ],
     user    => $user,
