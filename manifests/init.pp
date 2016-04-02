@@ -8,8 +8,9 @@
 # === Examples
 #
 #  class { 'piwik':
-#    path => "/srv/piwik",
-#    user => "www-data",
+#    path    => "/srv/piwik",
+#    user    => "www-data",
+#    version => "2.9.0"
 #  }
 #
 # === Authors
@@ -23,11 +24,18 @@
 # Class:: piwik
 #
 class piwik (
-  $path = '/srv/piwik',
-  $user = 'www-data',
+  $path    = '/srv/piwik',
+  $user    = 'www-data',
+  $version = 'latest'
 ) {
   if !defined(Package['unzip']) {
     package { 'unzip': }
+  }
+
+  if $version == 'latest' {
+    $real_version = 'latest.zip'
+  } else {
+    $real_version = "piwik-${version}.zip"
   }
 
   file { $path:
@@ -38,7 +46,7 @@ class piwik (
   exec { 'piwik-download':
     path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
-    command => "bash -c 'cd /tmp; wget http://builds.piwik.org/latest.zip'",
+    command => "bash -c 'cd /tmp; wget http://builds.piwik.org/${real_version}'",
     require => File[$path],
     user    => $user,
   }
@@ -46,7 +54,8 @@ class piwik (
   exec { 'piwik-unzip':
     path    => '/bin:/usr/bin',
     creates => "${path}/index.php",
-    command => "bash -c 'unzip -o /tmp/latest.zip \'piwik/*\''",
+    cwd     => '/tmp',
+    command => "bash -c 'unzip -o /tmp/${real_version} \'piwik/*\''",
     require => [ Exec['piwik-download'], Package['unzip'] ],
     user    => $user,
   }
@@ -59,7 +68,7 @@ class piwik (
     user    => $user,
   }
 
-  file { '/tmp/latest.zip':
+  file { "/tmp/${real_version}":
     ensure  => absent,
     require => Exec['piwik-copy'],
   }
