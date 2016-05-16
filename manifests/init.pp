@@ -4,6 +4,12 @@
 #
 # [path] The path were piwik should be installed to (default: /srv/piwik)
 # [user] The piwik user (default: www-data)
+# [version] The piwik version to install (default: latest)
+# [auto_archive] Enable Cronjob to archive reports (default: false)
+# [archive_time] Cronjob time parameter (default: '5 * * * *')
+# [archive_url] Url of piwik instllation for archive job (default: 'http://localhost/')
+# [archive_log] Archive Log file (default: /var/log/piwik-archive.log')
+# [php_path] Path to php executable, (default: '/usr/bin/php5')
 #
 # === Examples
 #
@@ -24,9 +30,14 @@
 # Class:: piwik
 #
 class piwik (
-  $path    = '/srv/piwik',
-  $user    = 'www-data',
-  $version = 'latest'
+  $path         = '/srv/piwik',
+  $user         = 'www-data',
+  $version      = 'latest',
+  $auto_archive = false,
+  $archive_time = '5 * * * *', # hourly
+  $archive_url  = 'http://localhost/',
+  $archive_log  = '/var/log/piwik-archive.log',
+  $php_path     = '/usr/bin/php5',
 ) {
   if !defined(Package['unzip']) {
     package { 'unzip': }
@@ -78,5 +89,20 @@ class piwik (
     recurse => true,
     force   => true,
     require => Exec['piwik-copy'],
+  }
+
+  if $auto_archive {
+    file{
+      '/etc/cron.d/piwik-archive':
+        content => "${archive_time} ${user} ${php_path} ${path}/console core:archive --url=${archive_url} >> ${archive_log}\n",
+        owner   => $user,
+        group   => 0,
+        mode    => '0644';
+      $archive_log:
+        ensure  => file,
+        owner   => $user,
+        group   => 0,
+        mode    => '0640';
+    }
   }
 } # Class:: piwik
