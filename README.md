@@ -1,3 +1,8 @@
+# UNMAINTAINED
+
+Since we stopped using puppet for our infrastructure, we are not going to 
+maintain this solution anymore.
+
 # piwik
 
 A puppet module to easily deploy piwik. Make sure you have a
