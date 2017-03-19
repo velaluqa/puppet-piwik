@@ -12,7 +12,7 @@ class piwik::standalone(
   $mysql               = true,
   $mysql_root_password = undef,
   $db_password         = undef,
-  $piwik_archive_time  = '/15 * * * *',
+  $piwik_archive_time  = '*/30 * * * *',
   $piwik_php_path      = '/usr/bin/php7.0',
   $mysql_memory        = '2G',
 ){
