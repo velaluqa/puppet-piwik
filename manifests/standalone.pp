@@ -1,10 +1,10 @@
-#Opinionated Standalone installation with nginx, php7.0 and mysql.
+# Opinionated Standalone installation with nginx, php7.0 and mysql.
 # requires modules puppet-nginx and puppetlabs-mysql
 # on first access you need to configure the database:
-#   host: 127.0.0.1
-#   db:   piwik
-#   user: piwik
-#   password: $db_password
+#   Database Server: 127.0.0.1
+#   Login:           piwik
+#   Password:        <$piwik::standalone::db_password>
+#   Database Name:   piwik
 class piwik::standalone(
   $piwik              = true,
   $php7               = true,
@@ -77,8 +77,8 @@ class piwik::standalone(
           try_files           => ['$uri =404'],
           fastcgi             => 'unix:/run/php/php7.0-fpm.sock',
           fastcgi_param       => {
-            SCRIPT_FILENAME => '$document_root$fastcgi_script_name',
-            HTTPS           => '$forwarded_https',
+            'SCRIPT_FILENAME' => '$document_root$fastcgi_script_name',
+            'HTTPS'           => '$forwarded_https',
           },
           location_cfg_append => {
             fastcgi_connect_timeout => '3m',
