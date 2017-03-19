@@ -95,7 +95,7 @@ class piwik (
     file{
       '/etc/cron.d/piwik-archive':
         content => "${archive_time} ${user} ${php_path} ${path}/console core:archive --url=${archive_url} >> ${archive_log}\n",
-        owner   => $user,
+        owner   => root,
         group   => 0,
         mode    => '0644';
       $archive_log:
