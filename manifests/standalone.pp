@@ -6,14 +6,15 @@
 #   Password:        <$piwik::standalone::db_password>
 #   Database Name:   piwik
 class piwik::standalone(
-  $piwik              = true,
-  $php7               = true,
-  $nginx              = true,
-  $mysql              = true,
-  $db_password        = undef,
-  $piwik_archive_time = '/15 * * * *',
-  $piwik_php_path     = '/usr/bin/php7.0',
-  $mysql_memory       = '2G',
+  $piwik               = true,
+  $php7                = true,
+  $nginx               = true,
+  $mysql               = true,
+  $mysql_root_password = undef,
+  $db_password         = undef,
+  $piwik_archive_time  = '/15 * * * *',
+  $piwik_php_path      = '/usr/bin/php7.0',
+  $mysql_memory        = '2G',
 ){
   if $piwik {
     class{ 'piwik':
@@ -99,6 +100,7 @@ class piwik::standalone(
   }
   if $mysql {
     class { 'mysql::server':
+      root_password    => $mysql_root_password,
       override_options => {
         mysqld => {
           bind-address                   => '127.0.0.1',

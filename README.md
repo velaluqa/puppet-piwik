@@ -19,7 +19,8 @@ or use it as a reference.
 
 ```
   class { piwik::standalone:
-    db_password => 'somethingsecure',
+    mysql_root_password => 'AVeryStrongPassword',
+    db_password         => 'somethingsecure',
   }
 ```
 
