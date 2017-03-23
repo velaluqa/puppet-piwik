@@ -1,43 +1,58 @@
 # piwik
 
-A puppet module to easily deploy piwik. Make sure you have a
-correct php5 installation. This module only downloads the latest
-piwik archive and extracts it to a given path.
+fork of unmaintained [velaluqa-piwik](https://github.com/velaluqa/puppet-piwik)
 
-You may have to install `php5-fpm` (via puppet-php) and configure your
-web server (maybe with a puppet nginx module).
+A puppet module to easily deploy piwik.
 
-## Suggested Preparation
+For the main class piwik you have to manage your webserver, db and php separately
 
-This module is as simple as possible. You should be able to choose
-your own php installation. This is my own, which works quite find, as
-I find:
+For a standalone setup with nginx, php7.0 and mysql use the php::standalone class
+or use it as a reference.
 
-1. First I install the
-   [nodes/php](https://forge.puppetlabs.com/nodes/php) module.
+## Standalone Setup
 
-```
-puppet module install nodes/php
-```
+1. install puppet modules:
+  * [puppet-nginx](https://forge.puppet.com/puppet/nginx)
+  * [puppetlabs-mysql](https://forge.puppet.com/puppetlabs/mysql)
 
-2. Using this module I install the necessary php packages. For serving
-   php I use php-fpm with nginx.
+2. Include piwik::standalone
 
 ```
-class { 'php::extension::mysql': }
-class { 'php::extension::mcrypt': }
-class { 'php::extension::gd': }
-class { 'php::fpm::daemon':
-  ensure => running
-}
+  class { piwik::standalone:
+    mysql_root_password => 'AVeryStrongPassword',
+    db_password         => 'somethingsecure',
+  }
 ```
 
-3. Then I install piwik. See [[Usage]].
+3. Configure Piwik
 
-4. At last you may set up your vhost. This is depending on the server
-   module you are using. I use my nginx fork
+*Please note:* After the first installation you have to initialize
+ piwik by bootstrapping the database. For this use the setup gui in
+ your browser according to the piwik installation manual.
 
-## Usage
+```
+   Database Server: 127.0.0.1
+   Login:           piwik
+   Password:        <$piwik::standalone::db_password>
+   Database Name:   piwik
+```
+
+4. Configure Geolocation
+
+  * Log in to piwik,
+  * Go to the Admin Section > Geolocation
+  * Setup automatic updates of GeoIP databases (bottom of page)
+  * Use the suggested URL
+    http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+  * Reload the Geolocation Section
+  * Select GeoIP (Php)
+  * Save
+
+## Install only piwik
+
+Make sure you have a correct php5 or php7 installation.
+This module only downloads the latest piwik archive and extracts it to a
+given path.
 
 ```
   class { 'piwik':
